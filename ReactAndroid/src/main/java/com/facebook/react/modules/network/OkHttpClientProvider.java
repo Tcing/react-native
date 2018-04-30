@@ -20,6 +20,7 @@ import javax.annotation.Nullable;
 import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
 import okhttp3.TlsVersion;
+import okhttp3.CipherSuite;
 
 /**
  * Helper class that provides the same OkHttpClient instance that will be used for all networking
@@ -43,7 +44,7 @@ public class OkHttpClientProvider {
     }
     return sClient;
   }
-  
+
   // okhttp3 OkHttpClient is immutable
   // This allows app to init an OkHttpClient with custom settings.
   public static void replaceOkHttpClient(OkHttpClient client) {
@@ -80,6 +81,15 @@ public class OkHttpClientProvider {
 
         ConnectionSpec cs = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
                 .tlsVersions(TlsVersion.TLS_1_2)
+                .cipherSuites(CipherSuite.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+                CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+                CipherSuite.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
+                CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,
+                CipherSuite.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
+                CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
+                CipherSuite.TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,
+                CipherSuite.TLS_DHE_RSA_WITH_AES_256_CBC_SHA,
+                CipherSuite.TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA)
                 .build();
 
         List<ConnectionSpec> specs = new ArrayList<>();
